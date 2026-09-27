@@ -98,7 +98,7 @@ canvas.chart{background:#fff;border-radius:10px;max-width:100%;}
 
   <!-- ===================== BAGIAN B (Prolog) ===================== -->
   <div class="screen" id="screen-B" style="background-image:url('images/bg-desa.png');">
-    <div class="topbar"><button class="btn-nav" onclick="goHome()">🏠 Home</button><button class="btn-nav" onclick="goBack()">⬅️ Kembali</button></div>
+    <div class="topbar"><div class="grp"><button class="btn-nav" onclick="goHome()">🏠 Home</button><button class="btn-nav" onclick="goBack()">⬅️ Kembali</button></div><button class="btn-nav" onclick="bukaCeritaB()">📖 Baca Cerita</button></div>
     <div class="center">
       <img class="imgFrame" src="images/prolog-1.png" alt="Baruklinting berjalan">
       <div class="card" id="prologBox" style="max-width:600px;"></div>
@@ -111,7 +111,7 @@ canvas.chart{background:#fff;border-radius:10px;max-width:100%;}
 
   <!-- ===================== BAGIAN C (Bukit Cinta - Pendalaman Materi) ===================== -->
   <div class="screen" id="screen-C" style="background-image:url('images/bg-bukitcinta.png');">
-    <div class="topbar"><button class="btn-nav" onclick="goHome()">🏠 Home</button><button class="btn-nav" onclick="goBack()">⬅️ Kembali</button></div>
+    <div class="topbar"><div class="grp"><button class="btn-nav" onclick="goHome()">🏠 Home</button><button class="btn-nav" onclick="goBack()">⬅️ Kembali</button></div><button class="btn-nav" onclick="bukaCeritaC()">📖 Baca Cerita</button></div>
     <div id="C-intro" class="center">
       <img class="imgFrame" src="images/bukit-cinta.png" alt="Peti wasiat kuno di Bukit Cinta">
       <div class="card" style="max-width:600px;">
@@ -189,7 +189,7 @@ canvas.chart{background:#fff;border-radius:10px;max-width:100%;}
 
   <!-- ===================== BAGIAN D (Nyi Latung - Menyajikan Data) ===================== -->
   <div class="screen" id="screen-D" style="background-image:url('images/bg-lapangan.png');">
-    <div class="topbar"><button class="btn-nav" onclick="goHome()">🏠 Home</button><button class="btn-nav" onclick="goBack()">⬅️ Kembali</button></div>
+    <div class="topbar"><div class="grp"><button class="btn-nav" onclick="goHome()">🏠 Home</button><button class="btn-nav" onclick="goBack()">⬅️ Kembali</button></div><button class="btn-nav hidden" id="btnCeritaD" onclick="bukaCeritaD()">📖 Baca Cerita</button></div>
     <div id="D-intro" class="center">
       <img class="imgFrame" src="images/nyi-latung.png" alt="Nyi Latung kebingungan">
       <div class="card" style="max-width:600px;">
@@ -246,7 +246,7 @@ canvas.chart{background:#fff;border-radius:10px;max-width:100%;}
 
   <!-- ===================== BAGIAN E (Studi Kasus KKTP) ===================== -->
   <div class="screen" id="screen-E" style="background-image:url('images/bg-banjir.png');">
-    <div class="topbar"><button class="btn-nav" onclick="goHome()">🏠 Home</button><button class="btn-nav" onclick="goBack()">⬅️ Kembali</button></div>
+    <div class="topbar"><div class="grp"><button class="btn-nav" onclick="goHome()">🏠 Home</button><button class="btn-nav" onclick="goBack()">⬅️ Kembali</button></div><button class="btn-nav hidden" id="btnCeritaE" onclick="bukaCeritaE()">📖 Baca Cerita</button></div>
     <div id="E-intro" class="center">
       <img class="imgFrame" src="images/warga-menyerang.png" alt="Nyi Latung diserang warga">
       <div class="card" style="max-width:620px;">
@@ -343,6 +343,13 @@ canvas.chart{background:#fff;border-radius:10px;max-width:100%;}
       </ul>
     </div>
   </div>
+</div></div>
+
+<div class="overlay" id="popCerita"><div class="popup">
+  <button class="close" onclick="closePopup('popCerita')">✕</button>
+  <h2 id="ceritaJudul">📖 Cerita</h2>
+  <img class="imgFrame" id="ceritaImg" style="max-height:220px" src="" alt="Ilustrasi cerita">
+  <div id="ceritaTeks"></div>
 </div></div>
 
 <div class="overlay" id="popKesimpulan"><div class="popup">
@@ -464,6 +471,20 @@ function renderProlog(){
 function prologNext(){ state.prologIdx++; renderProlog(); }
 
 /* =========================================================
+   POPUP BACA CERITA (per bagian)
+========================================================= */
+function bukaCerita(judul,img,html){
+  document.getElementById('ceritaJudul').textContent = judul;
+  document.getElementById('ceritaImg').src = img;
+  document.getElementById('ceritaTeks').innerHTML = html;
+  openPopup('popCerita');
+}
+function bukaCeritaB(){ bukaCerita('📖 Prolog: Perjalanan Baruklinting','images/prolog-1.png', PROLOG.map(p=>'<p>'+p+'</p>').join('')); }
+function bukaCeritaC(){ bukaCerita('📖 Cerita: Bukit Cinta','images/bukit-cinta.png','<p>Di Bukit Cinta, Baruklinting menemukan peti berisi <b>wasiat kuno</b>. Ia harus memahaminya sebelum mendaki Gunung Telomoyo. Bantu Baruklinting memahami wasiat itu!</p>'); }
+function bukaCeritaD(){ bukaCerita('📖 Cerita: Nyi Latung','images/nyi-latung.png','<p>Di lapangan desa, warga ramai mencari pemilik <b>jejak kaki</b> misterius. Nyi Latung, nenek baik hati, kebingungan mendata ukuran kaki warga. Bantu ia mengumpulkan &amp; menyajikan data ukuran sepatu!</p>'); }
+function bukaCeritaE(){ bukaCerita('📖 Cerita: Banjir Bandang','images/warga-menyerang.png','<p>Warga marah karena Nyi Latung dituduh tahu siapa perampoknya. Baruklinting menancapkan lidi &mdash; siapa pun tak mampu mencabutnya, hingga ia mencabutnya sendiri dan <b>Banjir Bandang</b> pun terjadi, mengubah desa menjadi Rawa Pening. Selesaikan tantangan terakhir ini agar kamu dan Nyi Latung selamat!</p>'); }
+
+/* =========================================================
    BAGIAN C
 ========================================================= */
 const PANEL_C=[{id:'p1',label:'1. Statistika & Data'},{id:'p2',label:'2. Pengumpulan Data'},{id:'p3',label:'3. Penyajian Data'},{id:'p4',label:'4. Pengolahan Data'},{id:'p5',label:'5. Evaluasi'}];
@@ -515,6 +536,7 @@ function selesaiC(){ showScreen('D'); }
 const PANEL_D=[{id:'p1',label:'1. Tabel'},{id:'p2',label:'2. Diagram Batang'},{id:'p3',label:'3. Diagram Garis'},{id:'p4',label:'4. Evaluasi'}];
 function bukaPanelD(){
   document.getElementById('D-intro').classList.add('hidden'); document.getElementById('D-panels').classList.remove('hidden');
+  document.getElementById('btnCeritaD').classList.remove('hidden');
   buildTabs('tabsD','D',PANEL_D);
   buatTabelKosong('tabelD',5,['Nama Warga','Ukuran Sepatu (cm)']);
   buatInputChart('inputBatangD',5,'batangD'); buatInputChart('inputGarisD',5,'garisD');
@@ -631,6 +653,7 @@ function selesaiD(){ showScreen('E'); }
 const NILAI_ASLI=[92,88,85,90,72,68,95,83,86,74]; // 7 mapel >=80(KKTP), 3 mapel <80: IPS,Pancasila,PJOK (contoh guru, bisa disesuaikan)
 function bukaPanelE(){
   document.getElementById('E-intro').classList.add('hidden'); document.getElementById('E-panels').classList.remove('hidden');
+  document.getElementById('btnCeritaE').classList.remove('hidden');
   const namaMurid = 'Dewi Asih';
   const daftarNilai = NAMA_MAPEL.map((m,i)=>`${m}: <b>${NILAI_ASLI[i]}</b>`).join(', ');
   document.getElementById('narasiKasusE').innerHTML = `<h3>📄 Data Rapor</h3><p>Pada Penilaian Sumatif Akhir Semester Kelas VII SMP Negeri 2 Banyubiru, Wali Kelas membagikan hasil nilai <b>${namaMurid}</b> pada 10 mata pelajaran sebagai berikut:</p><p>${daftarNilai}.</p><p>Bantu Baruklinting menyusun data nilai ${namaMurid} ke dalam tabel dan diagram batang di bawah ini!</p>`;
